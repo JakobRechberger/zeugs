@@ -1,0 +1,118 @@
+{
+  "project_info": {
+    "project_number": "551872388580",
+    "project_id": "zeugs-8f2e7",
+    "storage_bucket": "zeugs-8f2e7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:551872388580:android:01778f94aae057aa14fbf1",
+        "android_client_info": {
+          "package_name": "com.example.vertiefung_zeugs"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "551872388580-8l7od9n3cabp65a4h44svlc7tifb56cl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDVD1tqi2cjPiZx6SfdBgWVGUb7pPf3anQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "551872388580-8l7od9n3cabp65a4h44svlc7tifb56cl.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "551872388580-u64q3g81omh6jds9a827vmc9aqnmi6c5.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.vertiefungZeugs"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:551872388580:android:f977377696e8057514fbf1",
+        "android_client_info": {
+          "package_name": "com.example.zeugs"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "551872388580-8l7od9n3cabp65a4h44svlc7tifb56cl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDVD1tqi2cjPiZx6SfdBgWVGUb7pPf3anQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "551872388580-8l7od9n3cabp65a4h44svlc7tifb56cl.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "551872388580-u64q3g81omh6jds9a827vmc9aqnmi6c5.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.vertiefungZeugs"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:551872388580:android:3be5e902b7303fb814fbf1",
+        "android_client_info": {
+          "package_name": "com.thws.zeugs"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "551872388580-8l7od9n3cabp65a4h44svlc7tifb56cl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDVD1tqi2cjPiZx6SfdBgWVGUb7pPf3anQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "551872388580-8l7od9n3cabp65a4h44svlc7tifb56cl.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "551872388580-u64q3g81omh6jds9a827vmc9aqnmi6c5.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.vertiefungZeugs"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
