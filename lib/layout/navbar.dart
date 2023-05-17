@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:vertiefung_zeugs/layout/components/productBox.dart';
 
-class BottomNavigationBarExampleApp extends StatelessWidget {
-  const BottomNavigationBarExampleApp({super.key});
+import 'components/map.dart';
+
+class NavBar extends StatelessWidget {
+  const NavBar({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -24,19 +27,13 @@ class _BottomNavigationBarExampleState
   int _selectedIndex = 0;
   static const TextStyle optionStyle =
   TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  static const List<Widget> _widgetOptions = <Widget>[
-    Text(
-      'Index 0: Info',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 1: Map',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 2: Account',
-      style: optionStyle,
-    ),
+  static final List<Widget> _widgetOptions = <Widget>[
+    const MapBox(),
+    const ProductBox(
+      name: "Account Information",
+      description: "Display account info",
+      price: 800,
+    )
   ];
 
   void _onItemTapped(int index) {
@@ -44,37 +41,21 @@ class _BottomNavigationBarExampleState
       _selectedIndex = index;
     });
   }
-  void _incrementCounter() {}
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('zeugs'),
-        centerTitle: true,
-        backgroundColor: Colors.orangeAccent,
-      ),
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        backgroundColor: Colors.orangeAccent,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.map_outlined),
+            icon: Icon(Icons.map),
             label: 'Map',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.person_3_outlined),
+            icon: Icon(Icons.person_4_outlined),
             label: 'Account',
           ),
         ],
