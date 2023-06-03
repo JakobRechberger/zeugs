@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mapbox_gl/mapbox_gl.dart';
+import 'package:mapbox_maps_flutter/mapbox_maps_flutter.dart';
 import 'package:vertiefung_zeugs/layout/components/productBox.dart';
 
 import 'components/map.dart';
@@ -27,7 +27,7 @@ class _BottomNavigationBarExampleState
     extends State<BottomNavigationBarExample> {
   int _selectedIndex = 0;
   static final List<Widget> _widgetOptions = <Widget>[
-    const MapBox( latLng: LatLng(75.0, 89.0)),
+    MapScreen(),
     const ProductBox(
       name: "Account Information",
       description: "Display account info",
