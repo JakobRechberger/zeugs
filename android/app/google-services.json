@@ -14,7 +14,15 @@
       },
       "oauth_client": [
         {
-          "client_id": "551872388580-2lhulgpmst8m8b77274p8sc8aqvo7064.apps.googleusercontent.com",
+          "client_id": "551872388580-uc30h35t176bg3is9cnagu8bs1r501ue.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.vertiefung_zeugs",
+            "certificate_hash": "5c1e70f0e738e8e8d92c197486d2ed7c0891d453"
+          }
+        },
+        {
+          "client_id": "551872388580-3acqnag5mn6bnasqc4mau4g9n0hcrp6m.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
@@ -50,7 +58,7 @@
       },
       "oauth_client": [
         {
-          "client_id": "551872388580-2lhulgpmst8m8b77274p8sc8aqvo7064.apps.googleusercontent.com",
+          "client_id": "551872388580-3acqnag5mn6bnasqc4mau4g9n0hcrp6m.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
@@ -86,7 +94,7 @@
       },
       "oauth_client": [
         {
-          "client_id": "551872388580-2lhulgpmst8m8b77274p8sc8aqvo7064.apps.googleusercontent.com",
+          "client_id": "551872388580-3acqnag5mn6bnasqc4mau4g9n0hcrp6m.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
