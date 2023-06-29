@@ -146,6 +146,9 @@ class FullMap extends State<MapScreen> with TickerProviderStateMixin {
   }
   filterByParameters(){
     filteredItems.clear();
+    setState(() {
+      displayTools = true;
+    });
     filteredItems = mapMarkers.where((marker) => marker.title!.toLowerCase().contains(searchText.toLowerCase()) && marker.distance! <= currentFilterDistanceValue && marker.price! <= currentFilterPriceValue).toList();
     for (int i = 0; i < filteredItems.length; i++){
       filteredItems[i].distance = calculateDistance(filteredItems[i].location);
@@ -171,7 +174,7 @@ class FullMap extends State<MapScreen> with TickerProviderStateMixin {
               TileLayer(
                 urlTemplate: 'https://api.mapbox.com/styles/v1/jakobrechberger/clhumypca020801r0e3yp7i5j/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoiamFrb2JyZWNoYmVyZ2VyIiwiYSI6ImNsaHFpcjM4bDI0eW4za3MxcmE1bTR0dzkifQ.BnYgVzlLIohVwazSJSFMrg',
                 additionalOptions: const {
-                  'accessToken':'sk.eyJ1IjoiamFrb2JyZWNoYmVyZ2VyIiwiYSI6ImNsaHVtYjFtdjAxOTAzbnJ3OGFqczRtNTkifQ.IbS4Q7hu_0cldmzM4Sr3Jw',
+                  'accessToken':'',
                   'id': 'mapbox.mapbox-streets-v8'
                 },
               ),
@@ -283,6 +286,7 @@ class FullMap extends State<MapScreen> with TickerProviderStateMixin {
                                               setState(() {
                                                 displayToolInfo = !displayToolInfo;
                                                 displayTools = !displayTools;
+                                                isFilterExpanded = false;
                                               });
 
                                               overlayScreen = OverlayScreen(
