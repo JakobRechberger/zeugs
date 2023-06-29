@@ -18,11 +18,15 @@ class MapScreen extends StatefulWidget {
 }
 class FullMap extends State<MapScreen> with TickerProviderStateMixin {
   bool isMenuExpanded = false;
-  bool displayTools = true;
+  bool displayTools = false;
   bool displayToolInfo = false;
+  bool isFilterExpanded = false;
+  double currentFilterDistanceValue = 2.5;
+  double currentFilterPriceValue = 10;
+  String searchText = '';
   int selectedIndex = 0;
   OverlayScreen? overlayScreen;
-  List itemsOnMap = [];
+  List<MapMarker> filteredItems = [];
   var distance = const Distance();
   LatLng? myLocation = LatLng(49.7775, 9.9631);
   var currentLocation = LatLng(49.7775, 9.9631);
@@ -74,9 +78,6 @@ class FullMap extends State<MapScreen> with TickerProviderStateMixin {
         Position? position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
         myLocation = LatLng(position.latitude, position.longitude);
         print("my location is  ${position.latitude}  ${position.longitude}      ");
-        for (int i = 0; i < mapMarkers.length; i++){
-          mapMarkers[i].distance = calculateDistance(mapMarkers[i].location);
-        }
         _animatedMapMove(myLocation!, 13);
 
       },
@@ -131,6 +132,28 @@ class FullMap extends State<MapScreen> with TickerProviderStateMixin {
 
     controller.forward();
   }
+  void filterItems(String value) {
+    String text = value;
+    setState(() {
+      searchText = value;
+      filteredItems = mapMarkers.where((marker) => marker.title!.toLowerCase().contains(text.toLowerCase())).toList();
+      displayTools = true;
+    });
+    for (int i = 0; i < filteredItems.length; i++){
+      filteredItems[i].distance = calculateDistance(filteredItems[i].location);
+    }
+    filteredItems.sort((a, b) => a.distance!.compareTo(b.distance as num));
+  }
+  filterByParameters(){
+    filteredItems.clear();
+    setState(() {
+      displayTools = true;
+    });
+    filteredItems = mapMarkers.where((marker) => marker.title!.toLowerCase().contains(searchText.toLowerCase()) && marker.distance! <= currentFilterDistanceValue && marker.price! <= currentFilterPriceValue).toList();
+    for (int i = 0; i < filteredItems.length; i++){
+      filteredItems[i].distance = calculateDistance(filteredItems[i].location);
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -149,7 +172,7 @@ class FullMap extends State<MapScreen> with TickerProviderStateMixin {
               ),
             children: [
               TileLayer(
-                urlTemplate: '',
+                urlTemplate: 'https://api.mapbox.com/styles/v1/jakobrechberger/clhumypca020801r0e3yp7i5j/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoiamFrb2JyZWNoYmVyZ2VyIiwiYSI6ImNsaHFpcjM4bDI0eW4za3MxcmE1bTR0dzkifQ.BnYgVzlLIohVwazSJSFMrg',
                 additionalOptions: const {
                   'accessToken':'',
                   'id': 'mapbox.mapbox-streets-v8'
@@ -158,11 +181,11 @@ class FullMap extends State<MapScreen> with TickerProviderStateMixin {
               CurrentLocationLayer(),
               MarkerLayer(
                 markers: [
-                  for (int i = 0; i < mapMarkers.length; i++)
+                  for (int i = 0; i < filteredItems.length; i++)
                     Marker(
                     height: 40,
                     width: 40,
-                    point: mapMarkers[i].location ?? LatLng(49.7899, 9.9311),
+                    point: filteredItems[i].location ?? LatLng(49.7899, 9.9311),
                     builder: (_) {
                       return GestureDetector(
                         onTap: () {
@@ -171,7 +194,7 @@ class FullMap extends State<MapScreen> with TickerProviderStateMixin {
                             duration: const Duration(milliseconds: 500),
                             curve: Curves.easeInOut,
                           );
-                          currentLocation = (mapMarkers[i].location ??
+                          currentLocation = (filteredItems[i].location ??
                               myLocation)!;
                           selectedIndex = i;
                           setState(() {});
@@ -211,13 +234,13 @@ class FullMap extends State<MapScreen> with TickerProviderStateMixin {
                     onPageChanged: (value) {
                       selectedIndex = value;
                       currentLocation =
-                      (mapMarkers[value].location ?? myLocation)!;
+                      (filteredItems[value].location ?? myLocation)!;
                       _animatedMapMove(currentLocation, 13);
                       setState(() {});
                     },
-                    itemCount: mapMarkers.length,
+                    itemCount: filteredItems.length,
                     itemBuilder: (_, index) {
-                      final item = mapMarkers[index];
+                      final item = filteredItems[index];
                       return Padding(
                         padding: const EdgeInsets.all(15.0),
                         child: Card(
@@ -263,6 +286,7 @@ class FullMap extends State<MapScreen> with TickerProviderStateMixin {
                                               setState(() {
                                                 displayToolInfo = !displayToolInfo;
                                                 displayTools = !displayTools;
+                                                isFilterExpanded = false;
                                               });
 
                                               overlayScreen = OverlayScreen(
@@ -336,7 +360,9 @@ class FullMap extends State<MapScreen> with TickerProviderStateMixin {
           top: 0,
           left: 0,
           right: 0,
-          child: Container(
+          child:
+          AnimatedContainer(
+            duration: const Duration(milliseconds: 200),
             padding: const EdgeInsets.only(top: 32, left: 16, right: 16, bottom: 13),
             decoration: const BoxDecoration(
               color: Colors.orange,
@@ -345,38 +371,88 @@ class FullMap extends State<MapScreen> with TickerProviderStateMixin {
                 bottomRight: Radius.circular(20),
               ),
             ),
-            child: Row(
+            child: Column(
               children: [
-                Expanded(
-                  child: Container(
-                    height: 40,
-                    margin: const EdgeInsets.symmetric(horizontal: 16),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                    child: const TextField(
-                      decoration: InputDecoration(
-                        hintText: 'Search',
-                        border: InputBorder.none,
-                        prefixIcon: Icon(Icons.search),
+              Row(
+                children: [
+                  Expanded(
+                    child: Container(
+                      height: 40,
+                      margin: const EdgeInsets.symmetric(horizontal: 16),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      child: TextField(
+                        controller: _searchController,
+                        onSubmitted: (value) {
+                          filterItems(value);
+                        },
+                        decoration: const InputDecoration(
+                          hintText: 'Search',
+                          border: InputBorder.none,
+                          prefixIcon: Icon(Icons.search),
+                        ),
                       ),
                     ),
                   ),
-                ),
-                IconButton(
-                  icon: const Icon(Icons.filter_list),
-                  onPressed: () {
-                    String text = _searchController.text;
-                    for(int i = 0; i < mapMarkers.length; i++){
-                      if(mapMarkers[i].title!.contains(text)){
-                        itemsOnMap.add(mapMarkers[i]);
+                  IconButton(
+                      icon: const Icon(Icons.filter_list),
+                      onPressed: () {
+                        setState(() {
+                          isFilterExpanded = !isFilterExpanded; // Toggle the isMenuExpanded variable
+                        });
                       }
-                    }
-                  },
+                  ),
+                ],
+              ),
+                Visibility(
+                visible: isFilterExpanded,
+                child: Column(
+                  children: [
+                    const Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        'max. Distance',
+                      ),
+                    ),
+                    Slider(
+                      value: currentFilterDistanceValue,
+                      max: 5,
+                      divisions: 10,
+                      activeColor: Colors.black54,
+                      label: '${currentFilterDistanceValue}km',
+                      onChanged: (double value) {
+                        setState(() {
+                          currentFilterDistanceValue = value;
+                        });
+                        filterByParameters();
+                      },
+                    ),
+                    const Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        'Price',
+                      ),
+                    ),
+                    Slider(
+                      value: currentFilterPriceValue,
+                      max: 30,
+                      divisions: 30,
+                      activeColor: Colors.black54,
+                      label: '$currentFilterPriceValue€/day',
+                      onChanged: (double value) {
+                        setState(() {
+                          currentFilterPriceValue = value;
+                        });
+                        filterByParameters();
+                      },
+                    ),
+                  ],
+                ),
                 ),
               ],
-            ),
+            )
           ),
         ),
         if(!displayToolInfo)
